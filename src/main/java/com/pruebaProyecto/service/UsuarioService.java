@@ -38,8 +38,10 @@ public class UsuarioService {
 		
 		Usuario user = getUserToEmail(email); 
 		
+		//COMPRUEBA QUE EXISTA EL USUARIO SEGUN EL EMAIL
 		if(user != null) {
 			
+			//UNA VEZ EL USUARIO EXISTE SE COMPRUEBA QUE LAS CONTRASEÑAS SEAN CORRECTAS
 			if(user.getPassword().equals(password)) {
 				correcto = true;
 			}

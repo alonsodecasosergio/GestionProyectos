@@ -94,5 +94,13 @@ public class Usuario {
 		this.apellidos = apellidos;
 	}
 
+	@Override
+	public String toString() {
+		return "Usuario [id=" + id + ", proyecto=" + proyecto + ", email=" + email + ", nombre=" + nombre
+				+ ", password=" + password + ", apellidos=" + apellidos + "]";
+	}
+	
+	
+
 	
 }
