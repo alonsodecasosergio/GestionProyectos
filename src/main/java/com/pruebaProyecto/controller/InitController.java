@@ -8,14 +8,14 @@ import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
+import com.pruebaProyecto.service.UsuarioService;
+
 @Controller
 @RequestMapping("")
 public class InitController {
 	
 	@GetMapping("")
 	public String inicio() {
-		
-		System.out.println("Conntroler");
 		
 		return "index";
 	}
