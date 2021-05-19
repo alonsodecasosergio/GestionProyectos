@@ -1,5 +1,7 @@
 package com.pruebaProyecto.controller;
 
+import java.util.ArrayList;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -23,7 +25,7 @@ public class ProjectController {
 	private ProyectService projectService;
 	
 	@GetMapping("")
-	public String view(HttpSession sesion) {
+	public String viewProyect(HttpSession sesion) {
 		
 		//MOSTRARIA EL PROYECTO AL QUE EL USUARIO PERTENECE
 		
@@ -35,8 +37,23 @@ public class ProjectController {
 		return "index";
 	}
 	
+	@GetMapping("/all")
+	public String viewAllProyect(HttpSession sesion) {
+		
+		//MOSTRARIA TODOS LOS PROYECTOS
+		ArrayList<Proyecto> proyects = (ArrayList<Proyecto>) projectService.getAll();
+		
+		for(Proyecto p : proyects) {
+			
+			System.out.println(p.toString());
+			
+		}
+		
+		return "index";
+	}
+	
 	@PostMapping("/add")
-	public String add(@Valid @ModelAttribute Proyecto project, BindingResult bindingResult) {
+	public String addProyect(@Valid @ModelAttribute Proyecto project, BindingResult bindingResult) {
 		
 		//FECHA FORMATO 2021/05/19
 		System.out.println(project.toString());
@@ -56,7 +73,7 @@ public class ProjectController {
 	}
 	
 	@PostMapping("/del/{id}")
-	public String delete(@PathVariable("id") int id) {
+	public String deleteProyect(@PathVariable("id") int id) {
 		
 		System.out.println("BORRADO DEL PROJECTO: " + projectService.getById(id).toString());
 		
@@ -68,8 +85,8 @@ public class ProjectController {
 		
 	}
 	
-	@PostMapping("/edit")
-	public String edit(@ModelAttribute Proyecto project) {
+	@PostMapping("/update")
+	public String updateProyect(@ModelAttribute Proyecto project) {
 		
 		System.out.println("EDITADO DEL PROJECTO: " + project.toString());
 		

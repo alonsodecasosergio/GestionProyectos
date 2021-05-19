@@ -17,6 +17,10 @@ public class ProyectService {
 		repository.save(proyect);
 	}
 	
+	public Iterable<Proyecto> getAll(){
+		return repository.findAll();
+	}
+	
 	public void deleteProyecto(int id) {
 		repository.deleteById(id);
 	}
