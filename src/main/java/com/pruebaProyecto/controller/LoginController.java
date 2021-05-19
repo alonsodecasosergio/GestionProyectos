@@ -19,6 +19,9 @@ import com.pruebaProyecto.model.Usuario;
 import com.pruebaProyecto.service.ProyectService;
 import com.pruebaProyecto.service.UsuarioService;
 
+import lombok.extern.log4j.Log4j;
+
+@Log4j
 @Controller
 @RequestMapping("")
 public class LoginController {
@@ -40,7 +43,6 @@ public class LoginController {
 		//COMRPOBACION DEL EMAIL Y CONTRASEÑA
 		if(usuarioService.checkUser(email, password)) {
 			
-			System.out.println("Usuario correcto");
 			
 			//AL SER EL USUARIO CORRECTO SE CRERIA UNA SESSION CON EL
 			sesion.setAttribute("usuario", usuarioService.getUserToEmail(email));
@@ -60,12 +62,12 @@ public class LoginController {
 		//COMPROBACION DE LAS VALIDACIONES
 		if(bindingResult.hasErrors()) {
 			
-			System.out.println("HAY ERRORES DE VALIDACION AL CREAR EL USUARIO");
+			log.error("HAY ERRORES DE VALIDACION AL CREAR EL USUARIO");
 			
 		}else{
 			//AÑADIDO DEL USUARIO
 			usuarioService.addUsuario(user);
-			System.out.println("Añadido del usuairo: " + user.toString());
+			log.debug("Añadido del usuario: " + user.toString());
 		}
 		
 		return "redirect: /login"; 

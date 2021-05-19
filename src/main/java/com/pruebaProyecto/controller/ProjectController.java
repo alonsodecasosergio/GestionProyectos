@@ -17,6 +17,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import com.pruebaProyecto.model.Proyecto;
 import com.pruebaProyecto.model.Usuario;
 import com.pruebaProyecto.service.ProyectService;
+
+import lombok.extern.log4j.Log4j;
+@Log4j
 @Controller
 @RequestMapping("/project")
 public class ProjectController {
@@ -31,8 +34,6 @@ public class ProjectController {
 		
 		Usuario userConnected = (Usuario) sesion.getAttribute("usuario");
 		Proyecto projectMostrar = userConnected.getProyecto();
-		
-		System.out.println("PROYECTO A MOSTRAR:" + projectMostrar.toString());
 		
 		return "index";
 	}
@@ -61,7 +62,7 @@ public class ProjectController {
 		//COMPROBACION DE QUE NO HAY ERRORES EN EL OBJETO
 		if(bindingResult.hasErrors()) {
 			
-			System.out.println("HAY ERRORES DE VALIDACION");
+			log.error("HAY ERRORES DE VALIDACION");
 			
 		}else {
 			
@@ -75,7 +76,6 @@ public class ProjectController {
 	@GetMapping("/del/{id}")
 	public String deleteProyect(@PathVariable("id") int id) {
 		
-		System.out.println("BORRADO DEL PROJECTO: " + projectService.getById(id).toString());
 		
 		//BORRADO DEL PROJECTO SEGUN SU ID 
 		projectService.deleteProyecto(id);
@@ -91,10 +91,10 @@ public class ProjectController {
 		//COMPROBACION DE LAS VALIDACIONES
 		if(bindingResult.hasErrors()) {
 			
-			System.out.println("HAY ERRORES DE VALIDACION");
+			log.error("HAY ERRORES DE VALIDACION");
 			
 		}else {
-			System.out.println("EDITADO DEL PROJECTO: " + project.toString());
+			log.debug("EDITADO DEL PROJECTO: " + project.toString());
 			
 			//EDITADO DEL PRODUCTO
 			projectService.updateProject(project);

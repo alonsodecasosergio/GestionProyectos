@@ -20,6 +20,9 @@ import com.pruebaProyecto.service.HomeworkService;
 import com.pruebaProyecto.service.ProyectService;
 import com.pruebaProyecto.service.UsuarioService;
 
+import lombok.extern.log4j.Log4j;
+
+@Log4j
 @Controller
 @RequestMapping("/homework")
 public class HomeworkController {
@@ -75,7 +78,7 @@ public class HomeworkController {
 		//COMPROVACION DE VALIDACIONES
 		if(bindingResult.hasErrors()) {
 			
-			System.out.println("HAY ERRORES DE VALIDACION");
+			log.error("HAY ERRORES DE VALIDACION");
 			
 		}else {
 			
@@ -84,7 +87,7 @@ public class HomeworkController {
 			
 			homeworkService.addTarea(tarea);
 			
-			System.out.println("AÑADIDO DE LA NUEVA TAREA: " + tarea.toString());
+			log.debug("AÑADIDO DE LA NUEVA TAREA: " + tarea.toString());
 		}
 		
 		return "index";
@@ -93,7 +96,6 @@ public class HomeworkController {
 	@GetMapping("/del/{id}")
 	public String deleteHomework(@PathVariable("id") int id) {
 		
-		System.out.println("BORRADO DE LA TAREA: " + homeworkService.getTareaById(id));
 		
 		//BORRADO DE LA TAREA SEGUN SU ID 
 		homeworkService.deleteTarea(id);
@@ -115,10 +117,10 @@ public class HomeworkController {
 		//COMPROVACION DE VALIDACIONES
 		if(bindingResult.hasErrors()) {
 			
-			System.out.println("HAY ERRORES DE VALIDACION");
+			log.error("HAY ERRORES DE VALIDACION");
 			
 		}else {
-			System.out.println("EDITADO DE LA TAREA: " + tarea.toString());
+			log.debug("EDITADO DE LA TAREA: " + tarea.toString());
 			
 			//EDITADO DE LA TAREA
 			homeworkService.updateTarea(tarea);
