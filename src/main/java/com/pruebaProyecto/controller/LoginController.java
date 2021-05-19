@@ -20,7 +20,7 @@ import com.pruebaProyecto.service.ProyectService;
 import com.pruebaProyecto.service.UsuarioService;
 
 @Controller
-@RequestMapping("/login")
+@RequestMapping("")
 public class LoginController {
 	
 	@Autowired
