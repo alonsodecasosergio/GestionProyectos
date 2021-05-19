@@ -104,7 +104,7 @@ public class HomeworkController {
 	}
 	
 	@PostMapping("/update")
-	public String updateHomework(@ModelAttribute Tarea tarea) {
+	public String updateHomework(@Valid @ModelAttribute Tarea tarea, BindingResult bindingResult) {
 		
 		//OBTENCION DEL USUARIO A TRAVES DE LA SESSION 
 		//Usuario user = (Usuario) sesion.getAttribute("usuario");
@@ -112,10 +112,17 @@ public class HomeworkController {
 		tarea.setUsuario(user);
 		tarea.setProyecto(user.getProyecto());
 		
-		System.out.println("EDITADO DE LA TAREA: " + tarea.toString());
-		
-		//EDITADO DE LA TAREA
-		homeworkService.updateTarea(tarea);
+		//COMPROVACION DE VALIDACIONES
+		if(bindingResult.hasErrors()) {
+			
+			System.out.println("HAY ERRORES DE VALIDACION");
+			
+		}else {
+			System.out.println("EDITADO DE LA TAREA: " + tarea.toString());
+			
+			//EDITADO DE LA TAREA
+			homeworkService.updateTarea(tarea);
+		}
 		
 		return "index";
 	}

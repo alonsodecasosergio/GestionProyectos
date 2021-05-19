@@ -86,12 +86,19 @@ public class ProjectController {
 	}
 	
 	@PostMapping("/update")
-	public String updateProyect(@ModelAttribute Proyecto project) {
+	public String updateProyect(@Valid @ModelAttribute Proyecto project, BindingResult bindingResult) {
 		
-		System.out.println("EDITADO DEL PROJECTO: " + project.toString());
-		
-		//EDITADO DEL PRODUCTO
-		projectService.updateProject(project);
+		//COMPROBACION DE LAS VALIDACIONES
+		if(bindingResult.hasErrors()) {
+			
+			System.out.println("HAY ERRORES DE VALIDACION");
+			
+		}else {
+			System.out.println("EDITADO DEL PROJECTO: " + project.toString());
+			
+			//EDITADO DEL PRODUCTO
+			projectService.updateProject(project);
+		}
 		
 		return "index";
 	}
