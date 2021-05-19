@@ -68,7 +68,7 @@ public class LoginController {
 			System.out.println("Añadido del usuairo: " + user.toString());
 		}
 		
-		return "redirect: /login";
+		return "redirect: /login"; 
 	}
 
 }

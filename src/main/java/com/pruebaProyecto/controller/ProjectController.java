@@ -72,7 +72,7 @@ public class ProjectController {
 		return "index";
 	}
 	
-	@PostMapping("/del/{id}")
+	@GetMapping("/del/{id}")
 	public String deleteProyect(@PathVariable("id") int id) {
 		
 		System.out.println("BORRADO DEL PROJECTO: " + projectService.getById(id).toString());

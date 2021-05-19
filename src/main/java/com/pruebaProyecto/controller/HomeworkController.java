@@ -90,7 +90,7 @@ public class HomeworkController {
 		return "index";
 	}
 	
-	@PostMapping("/del/{id}")
+	@GetMapping("/del/{id}")
 	public String deleteHomework(@PathVariable("id") int id) {
 		
 		System.out.println("BORRADO DE LA TAREA: " + homeworkService.getTareaById(id));
