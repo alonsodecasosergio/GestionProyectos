@@ -9,6 +9,8 @@ import javax.persistence.Id;
 import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.Email;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "usuarios")
@@ -21,15 +23,20 @@ public class Usuario {
 	@ManyToOne
 	private Proyecto proyecto;
 	
+	@Email(message="Debe ser una dirección de correo electrónico con formato correcto")
+	@NotBlank(message="El email es obligatorio")
 	@Column(name = "email")
 	private String email;
 	
+	@NotBlank(message="El nombre es obligatorio")
 	@Column(name = "nombre")
 	private String nombre;
 	
+	@NotBlank(message="La contraseña es obligatoria")
 	@Column(name = "password")
 	private String password;
 	
+	@NotBlank(message="Los apellidos son obligatorios")
 	@Column(name = "apellidos")
 	private String apellidos;
 	

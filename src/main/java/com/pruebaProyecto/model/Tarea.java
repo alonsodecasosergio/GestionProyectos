@@ -8,6 +8,7 @@ import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.ManyToOne;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "tareas")
@@ -23,15 +24,19 @@ public class Tarea {
 	@ManyToOne
 	private Usuario usuario;
 	
+	@NotBlank(message="El nombre es obligatorio")
 	@Column(name = "nombre")
 	private String nombre;
 	
+	@NotBlank(message="La descripción es obligatoria")
 	@Column(name = "descripcion")
 	private String descripcion;
 	
+	@NotBlank(message="La fecha de inicio es obligatoria")
 	@Column(name = "fecha_inicio")
 	private Date fechaInicio;
 	
+	@NotBlank(message="La fecha de fin es obligatoria")
 	@Column(name = "fecha_fin")
 	private Date fechaFin;
 	

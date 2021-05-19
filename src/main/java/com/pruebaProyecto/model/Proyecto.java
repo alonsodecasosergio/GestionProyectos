@@ -11,6 +11,7 @@ import javax.persistence.ManyToMany;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToMany;
 import javax.persistence.Table;
+import javax.validation.constraints.NotBlank;
 
 @Entity
 @Table(name = "proyectos")
@@ -20,6 +21,7 @@ public class Proyecto {
 	@GeneratedValue
 	private int id;
 	
+	@NotBlank(message="El nombre es obligatorio")
 	@Column(name = "nombre")
 	private String nombre;
 	
@@ -71,6 +73,14 @@ public class Proyecto {
 	public void setFechaFin(Date fechaFin) {
 		this.fechaFin = fechaFin;
 	}
+
+	@Override
+	public String toString() {
+		return "Proyecto [id=" + id + ", nombre=" + nombre + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin
+				+ "]";
+	}
+	
+	
 	
 	
 }
