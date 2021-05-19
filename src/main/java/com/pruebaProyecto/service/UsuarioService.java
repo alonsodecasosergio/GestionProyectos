@@ -15,30 +15,54 @@ public class UsuarioService {
 	@Autowired
 	private UsuarioRepository repository;
 	
+	/**
+	 * Metodo para obtener un usuario
+	 * @param id
+	 * @return
+	 */
 	public Usuario getById(int id) {
 
 		log.debug("OBTENCION DEL USUARIO CON EL ID: " + id);
 		return repository.findById(id);
 	}
 	
+	/**
+	 * Metodo para borrar un usuario
+	 * @param id
+	 */
 	public void deleteUsuario(int id) {
 		
 		log.debug("BORRADO DEL USUARIO: " + getById(id).toString());
 		repository.deleteById(id);
 	}
 	
+	/**
+	 * Metodo para añadir un usuario
+	 * @param user
+	 */
 	public void addUsuario(Usuario user) {
 		
 		log.debug("AÑADIDO DEL USUARIO: " + user.toString());
 		repository.save(user);
 	}
 	
+	/**
+	 * Metodo para obtener un usuario segun su email
+	 * @param email
+	 * @return
+	 */
 	public Usuario getUserToEmail(String email) {
 		
 		log.debug("OBTENCION DEL USUARIO CON EL EMAIL: " + email);
 		return repository.findByEmail(email);
 	}
 	
+	/**
+	 * Metodo para comprobar si el usuario es correcto segun su email y password
+	 * @param email Email del usuario
+	 * @param password Password del Usuario
+	 * @return
+	 */
 	public boolean checkUser(String email, String password) {
 		
 		log.debug("CHECKEANDO USUARIO Y CONTRASEÑA: " + email + " | " + password);

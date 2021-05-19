@@ -26,6 +26,7 @@ import lombok.extern.log4j.Log4j;
 @RequestMapping("")
 public class LoginController {
 	
+	
 	@Autowired
 	private UsuarioService usuarioService;
 	@Autowired
@@ -37,6 +38,14 @@ public class LoginController {
 		return "index";
 	}
 	
+	/**
+	 * Metodo el cual valida el acceso a la aplicacion mediante el email y la contraseña del usuario
+	 * @param sesion
+	 * @param model
+	 * @param email Email de acceso
+	 * @param password Password de acceso
+	 * @return
+	 */
 	@PostMapping("/checked")
 	public String validateLogin(HttpSession sesion, Model model, @RequestParam(required = true) String email, @RequestParam(required = true) String password){
 		
@@ -53,6 +62,13 @@ public class LoginController {
 		return "redirect: /login";
 	}
 	
+	/**
+	 * Metodo el cual registra un nuevo usuario en la aplicacion 
+	 * @param idProject id del proyecto el cual se le asigna al usuario
+	 * @param user
+	 * @param bindingResult
+	 * @return
+	 */
 	@PostMapping("/register")
 	public String register(@RequestParam(required = true) int idProject,@Valid  @ModelAttribute Usuario user, BindingResult bindingResult){
 		

@@ -38,6 +38,11 @@ public class ProjectController {
 		return "index";
 	}
 	
+	/**
+	 * Metodo el cual mostrara todos los proyectos extraidos de la base de datos
+	 * @param sesion
+	 * @return
+	 */
 	@GetMapping("/all")
 	public String viewAllProyect(HttpSession sesion) {
 		
@@ -53,6 +58,12 @@ public class ProjectController {
 		return "index";
 	}
 	
+	/**
+	 * Metodo el cual añade un nuevo proyecto
+	 * @param project
+	 * @param bindingResult
+	 * @return
+	 */
 	@PostMapping("/add")
 	public String addProyect(@Valid @ModelAttribute Proyecto project, BindingResult bindingResult) {
 		
@@ -73,6 +84,11 @@ public class ProjectController {
 		return "index";
 	}
 	
+	/**
+	 * Metodo el cual elimina un proyecto segun el id recibido
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/del/{id}")
 	public String deleteProyect(@PathVariable("id") int id) {
 		
@@ -85,6 +101,12 @@ public class ProjectController {
 		
 	}
 	
+	/**
+	 * Metodo para actualizar un proyecto
+	 * @param project
+	 * @param bindingResult
+	 * @return
+	 */
 	@PostMapping("/update")
 	public String updateProyect(@Valid @ModelAttribute Proyecto project, BindingResult bindingResult) {
 		

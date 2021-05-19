@@ -7,7 +7,11 @@ import com.pruebaProyecto.model.Tarea;
 import com.pruebaProyecto.model.Usuario;
 
 
-
+/**
+ * Interfaz para los metodos CRUD sobre el modelo de Tarea
+ * @author Formacion
+ *
+ */
 public interface TareaRepository extends JpaRepository<Tarea, Integer>{
 	
 	Tarea findById(int id);

@@ -34,6 +34,11 @@ public class HomeworkController {
 	@Autowired
 	private UsuarioService usuarioService;
 	
+	/**
+	 * Metodo el cual devolvera las tareas del proyecto
+	 * @param id id del proyecto del que se quiere ver las tareas
+	 * @return
+	 */
 	@GetMapping("/{id}")
 	public String viewHomework(@PathVariable("id") int id) {
 		
@@ -48,6 +53,12 @@ public class HomeworkController {
 		
 	}
 	
+	/**
+	 * Metodo el cual devuelve las tareas solo del usuario el cual este conectado
+	 * @param sesion
+	 * @param id id del proyecto del que ver las tareas
+	 * @return
+	 */
 	@GetMapping("/myHomework/{id}")
 	public String myHomework(HttpSession sesion, @PathVariable("id") int id) {
 		
@@ -66,6 +77,13 @@ public class HomeworkController {
 		return "index";
 	}
 	
+	/**
+	 * Añadido de una nueva tarea 
+	 * @param sesion 
+	 * @param tarea 
+	 * @param bindingResult 
+ 	 * @return
+	 */
 	@PostMapping("/add")
 	public String addHomework(HttpSession sesion, @Valid @ModelAttribute Tarea tarea, BindingResult bindingResult) {
 		
@@ -93,6 +111,11 @@ public class HomeworkController {
 		return "index";
 	}
 	
+	/**
+	 * Borrado de una tarea segun el id
+	 * @param id
+	 * @return
+	 */
 	@GetMapping("/del/{id}")
 	public String deleteHomework(@PathVariable("id") int id) {
 		
@@ -105,6 +128,12 @@ public class HomeworkController {
 		
 	}
 	
+	/**
+	 * Actualizado de una tarea
+	 * @param tarea
+	 * @param bindingResult
+	 * @return
+	 */
 	@PostMapping("/update")
 	public String updateHomework(@Valid @ModelAttribute Tarea tarea, BindingResult bindingResult) {
 		
