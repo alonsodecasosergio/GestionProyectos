@@ -1,8 +1,12 @@
 package com.pruebaProyecto.controller;
 
+import javax.servlet.http.HttpSession;
+import javax.validation.Valid;
+
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -10,7 +14,9 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
+import com.pruebaProyecto.model.Proyecto;
 import com.pruebaProyecto.model.Usuario;
+import com.pruebaProyecto.service.ProyectService;
 import com.pruebaProyecto.service.UsuarioService;
 
 @Controller
@@ -19,6 +25,8 @@ public class LoginController {
 	
 	@Autowired
 	private UsuarioService usuarioService;
+	@Autowired
+	private ProyectService proyectService;
 	
 	@GetMapping("")
 	public String view() {
@@ -27,23 +35,35 @@ public class LoginController {
 	}
 	
 	@PostMapping("/checked")
-	public String validateLogin(Model model, @RequestParam(required = true) String email, @RequestParam(required = true) String password){
+	public String validateLogin(HttpSession sesion, Model model, @RequestParam(required = true) String email, @RequestParam(required = true) String password){
 		
 		if(usuarioService.checkUser(email, password)) {
 			
 			System.out.println("Usuario correcto");
+			
+			sesion.setAttribute("usuario", usuarioService.getUserToEmail(email));
+			
+			return "redirect: /project";
 		}
 		
-		return "index";
+		return "redirect: /login";
 	}
 	
 	@PostMapping("/register")
-	public String register(@ModelAttribute Usuario user){
+	public String register(@RequestParam(required = true) int idProject,@Valid  @ModelAttribute Usuario user, BindingResult bindingResult){
 		
-		System.out.println(user.toString());
-		//usuarioService.addUsuario(user);
+		user.setProyecto(proyectService.getById(idProject));
 		
-		return "index";
+		if(bindingResult.hasErrors()) {
+			
+			System.out.println("HAY ERRORES DE VALIDACION");
+			
+		}else{
+			usuarioService.addUsuario(user);
+			System.out.println("Añadido del usuairo: " + user.toString());
+		}
+		
+		return "redirect: /login";
 	}
 
 }
