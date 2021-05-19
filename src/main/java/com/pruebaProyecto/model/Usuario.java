@@ -1,5 +1,6 @@
 package com.pruebaProyecto.model;
 
+import java.util.Date;
 import java.util.List;
 
 import javax.persistence.Column;
@@ -12,6 +13,15 @@ import javax.persistence.Table;
 import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 
+import lombok.AllArgsConstructor;
+import lombok.Data;
+import lombok.NoArgsConstructor;
+import lombok.ToString;
+
+@Data
+@AllArgsConstructor
+@NoArgsConstructor
+@ToString
 @Entity
 @Table(name = "usuarios")
 public class Usuario {
@@ -39,75 +49,5 @@ public class Usuario {
 	@NotBlank(message="Los apellidos son obligatorios")
 	@Column(name = "apellidos")
 	private String apellidos;
-	
-	public Usuario() {
-		
-	}
-
-	public Usuario(Proyecto proyecto, String email, String nombre, String password, String apellidos) {
-		super();
-		this.proyecto = proyecto;
-		this.email = email;
-		this.nombre = nombre;
-		this.password = password;
-		this.apellidos = apellidos;
-	}
-
-	public int getId() {
-		return id;
-	}
-
-	public void setId(int id) {
-		this.id = id;
-	}
-
-	public Proyecto getProyecto() {
-		return proyecto;
-	}
-
-	public void setProyecto(Proyecto proyecto) {
-		this.proyecto = proyecto;
-	}
-
-	public String getEmail() {
-		return email;
-	}
-
-	public void setEmail(String email) {
-		this.email = email;
-	}
-
-	public String getNombre() {
-		return nombre;
-	}
-
-	public void setNombre(String nombre) {
-		this.nombre = nombre;
-	}
-
-	public String getPassword() {
-		return password;
-	}
-
-	public void setPassword(String password) {
-		this.password = password;
-	}
-
-	public String getApellidos() {
-		return apellidos;
-	}
-
-	public void setApellidos(String apellidos) {
-		this.apellidos = apellidos;
-	}
-
-	@Override
-	public String toString() {
-		return "Usuario [id=" + id + ", proyecto=" + proyecto + ", email=" + email + ", nombre=" + nombre
-				+ ", password=" + password + ", apellidos=" + apellidos + "]";
-	}
-	
-	
-
 	
 }
