@@ -24,5 +24,10 @@ public class ProyectService {
 	public Proyecto getById(int id) {
 		return repository.findById(id);
 	}
+	
+	public void updateProject(Proyecto project) {
+		
+		repository.save(project);
+	}
 
 }

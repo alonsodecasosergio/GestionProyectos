@@ -41,6 +41,7 @@ public class LoginController {
 			
 			System.out.println("Usuario correcto");
 			
+			//AL SER EL USUARIO CORRECTO SE CRERIA UNA SESSION CON EL
 			sesion.setAttribute("usuario", usuarioService.getUserToEmail(email));
 			
 			return "redirect: /project";
