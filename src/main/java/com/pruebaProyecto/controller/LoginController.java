@@ -37,6 +37,7 @@ public class LoginController {
 	@PostMapping("/checked")
 	public String validateLogin(HttpSession sesion, Model model, @RequestParam(required = true) String email, @RequestParam(required = true) String password){
 		
+		//COMRPOBACION DEL EMAIL Y CONTRASEÑA
 		if(usuarioService.checkUser(email, password)) {
 			
 			System.out.println("Usuario correcto");
@@ -53,13 +54,16 @@ public class LoginController {
 	@PostMapping("/register")
 	public String register(@RequestParam(required = true) int idProject,@Valid  @ModelAttribute Usuario user, BindingResult bindingResult){
 		
+		//AÑADIDO DEL PROJECTO AL USUARIO
 		user.setProyecto(proyectService.getById(idProject));
 		
+		//COMPROBACION DE LAS VALIDACIONES
 		if(bindingResult.hasErrors()) {
 			
-			System.out.println("HAY ERRORES DE VALIDACION");
+			System.out.println("HAY ERRORES DE VALIDACION AL CREAR EL USUARIO");
 			
 		}else{
+			//AÑADIDO DEL USUARIO
 			usuarioService.addUsuario(user);
 			System.out.println("Añadido del usuairo: " + user.toString());
 		}
