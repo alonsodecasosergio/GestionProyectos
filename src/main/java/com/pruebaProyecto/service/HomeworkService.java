@@ -5,6 +5,7 @@ import org.springframework.stereotype.Service;
 
 import com.pruebaProyecto.model.Proyecto;
 import com.pruebaProyecto.model.Tarea;
+import com.pruebaProyecto.model.Usuario;
 import com.pruebaProyecto.repository.TareaRepository;
 
 
@@ -37,5 +38,10 @@ public class HomeworkService {
 	public Iterable<Tarea> getAllByProyecto(Proyecto proyect){
 		
 		return repository.findByProyecto(proyect);
+	}
+	
+	public Iterable<Tarea> getAllByUsuarioAndProyecto(Usuario user, Proyecto project){
+		
+		return repository.findByUsuarioAndProyecto(user, project);
 	}
 }

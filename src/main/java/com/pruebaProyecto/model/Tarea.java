@@ -32,11 +32,9 @@ public class Tarea {
 	@Column(name = "descripcion")
 	private String descripcion;
 	
-	@NotBlank(message="La fecha de inicio es obligatoria")
 	@Column(name = "fecha_inicio")
 	private Date fechaInicio;
 	
-	@NotBlank(message="La fecha de fin es obligatoria")
 	@Column(name = "fecha_fin")
 	private Date fechaFin;
 	
@@ -109,6 +107,12 @@ public class Tarea {
 
 	public void setFechaFin(Date fechaFin) {
 		this.fechaFin = fechaFin;
+	}
+
+	@Override
+	public String toString() {
+		return "Tarea [id=" + id + ", proyecto=" + proyecto + ", usuario=" + usuario + ", nombre=" + nombre
+				+ ", descripcion=" + descripcion + ", fechaInicio=" + fechaInicio + ", fechaFin=" + fechaFin + "]";
 	}
 
 	
