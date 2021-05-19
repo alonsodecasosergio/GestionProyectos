@@ -26,6 +26,10 @@ public class HomeworkService {
 		repository.deleteById(id);
 	}
 	
+	public void updateTarea(Tarea tarea) {
+		repository.save(tarea);
+	}
+	
 	public Tarea getTareaById(int id) {
 		return repository.findById(id);
 	}
