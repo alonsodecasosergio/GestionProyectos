@@ -15,7 +15,9 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.pruebaProyecto.model.Proyecto;
 import com.pruebaProyecto.model.Usuario;
@@ -23,7 +25,7 @@ import com.pruebaProyecto.service.ProyectService;
 
 import lombok.extern.log4j.Log4j;
 @Log4j
-@Controller
+@RestController
 @RequestMapping("/project")
 public class ProjectController {
 	
@@ -60,7 +62,7 @@ public class ProjectController {
 	 * @return
 	 */
 	@PostMapping("/add")
-	public Proyecto addProyect(@Valid @ModelAttribute Proyecto project, BindingResult bindingResult) {
+	public Proyecto addProyect(@Valid @RequestBody Proyecto project, BindingResult bindingResult) {
 		
 		//FECHA FORMATO 2021/05/19
 		System.out.println(project.toString());
@@ -104,7 +106,7 @@ public class ProjectController {
 	 * @return
 	 */
 	@PutMapping("/update")
-	public Proyecto updateProyect(@Valid @ModelAttribute Proyecto project, BindingResult bindingResult) {
+	public Proyecto updateProyect(@Valid @RequestBody Proyecto project, BindingResult bindingResult) {
 		
 		//COMPROBACION DE LAS VALIDACIONES
 		if(bindingResult.hasErrors()) {

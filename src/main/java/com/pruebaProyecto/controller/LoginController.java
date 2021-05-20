@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.pruebaProyecto.model.Proyecto;
 import com.pruebaProyecto.model.Usuario;
@@ -23,7 +24,7 @@ import com.pruebaProyecto.service.UsuarioService;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-@Controller
+@RestController
 @RequestMapping("")
 public class LoginController {
 	
