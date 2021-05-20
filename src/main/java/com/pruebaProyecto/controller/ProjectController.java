@@ -1,6 +1,7 @@
 package com.pruebaProyecto.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -8,10 +9,12 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.pruebaProyecto.model.Proyecto;
@@ -28,14 +31,14 @@ public class ProjectController {
 	private ProyectService projectService;
 	
 	@GetMapping("")
-	public String viewProyect(HttpSession sesion) {
+	public Proyecto viewProyect(HttpSession sesion) {
 		
 		//MOSTRARIA EL PROYECTO AL QUE EL USUARIO PERTENECE
 		
 		Usuario userConnected = (Usuario) sesion.getAttribute("usuario");
 		Proyecto projectMostrar = userConnected.getProyecto();
 		
-		return "index";
+		return projectMostrar;
 	}
 	
 	/**
@@ -44,18 +47,10 @@ public class ProjectController {
 	 * @return
 	 */
 	@GetMapping("/all")
-	public String viewAllProyect(HttpSession sesion) {
+	public List<Proyecto> viewAllProyect(HttpSession sesion) {
 		
 		//MOSTRARIA TODOS LOS PROYECTOS
-		ArrayList<Proyecto> proyects = (ArrayList<Proyecto>) projectService.getAll();
-		
-		for(Proyecto p : proyects) {
-			
-			System.out.println(p.toString());
-			
-		}
-		
-		return "index";
+		return (List<Proyecto>) projectService.getAll();
 	}
 	
 	/**
@@ -65,7 +60,7 @@ public class ProjectController {
 	 * @return
 	 */
 	@PostMapping("/add")
-	public String addProyect(@Valid @ModelAttribute Proyecto project, BindingResult bindingResult) {
+	public Proyecto addProyect(@Valid @ModelAttribute Proyecto project, BindingResult bindingResult) {
 		
 		//FECHA FORMATO 2021/05/19
 		System.out.println(project.toString());
@@ -81,7 +76,7 @@ public class ProjectController {
 			projectService.addProyecto(project);
 		}
 		
-		return "index";
+		return project;
 	}
 	
 	/**
@@ -89,15 +84,16 @@ public class ProjectController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("/del/{id}")
-	public String deleteProyect(@PathVariable("id") int id) {
+	@DeleteMapping("/del/{id}")
+	public Proyecto deleteProyect(@PathVariable("id") int id) {
 		
 		
 		//BORRADO DEL PROJECTO SEGUN SU ID 
+		Proyecto project = projectService.getById(id);
 		projectService.deleteProyecto(id);
 		
 		
-		return "redirect: /project";
+		return project;
 		
 	}
 	
@@ -107,8 +103,8 @@ public class ProjectController {
 	 * @param bindingResult
 	 * @return
 	 */
-	@PostMapping("/update")
-	public String updateProyect(@Valid @ModelAttribute Proyecto project, BindingResult bindingResult) {
+	@PutMapping("/update")
+	public Proyecto updateProyect(@Valid @ModelAttribute Proyecto project, BindingResult bindingResult) {
 		
 		//COMPROBACION DE LAS VALIDACIONES
 		if(bindingResult.hasErrors()) {
@@ -122,7 +118,7 @@ public class ProjectController {
 			projectService.updateProject(project);
 		}
 		
-		return "index";
+		return project;
 	}
 
 }

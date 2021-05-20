@@ -1,6 +1,7 @@
 package com.pruebaProyecto.controller;
 
 import java.util.ArrayList;
+import java.util.List;
 
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
@@ -8,11 +9,15 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.PutMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 import com.pruebaProyecto.model.Tarea;
 import com.pruebaProyecto.model.Usuario;
@@ -23,7 +28,7 @@ import com.pruebaProyecto.service.UsuarioService;
 import lombok.extern.log4j.Log4j;
 
 @Log4j
-@Controller
+@RestController
 @RequestMapping("/homework")
 public class HomeworkController {
 	
@@ -40,16 +45,12 @@ public class HomeworkController {
 	 * @return
 	 */
 	@GetMapping("/{id}")
-	public String viewHomework(@PathVariable("id") int id) {
+	public List<Tarea> viewHomework(@PathVariable("id") int id) {
 		
 		//MOSTRARIA TODAS LAS TAREAS DE ESE PROYECTO
-		ArrayList<Tarea> homeworks = (ArrayList<Tarea>) homeworkService.getAllByProyecto(projectService.getById(id));
+		List<Tarea> homeworks = (List<Tarea>) homeworkService.getAllByProyecto(projectService.getById(id));
 		
-		for(Tarea t : homeworks) {
-			System.out.println(t.toString());
-		}
-		
-		return "index";
+		return homeworks;
 		
 	}
 	
@@ -60,21 +61,16 @@ public class HomeworkController {
 	 * @return
 	 */
 	@GetMapping("/myHomework/{id}")
-	public String myHomework(HttpSession sesion, @PathVariable("id") int id) {
+	public List<Tarea> myHomework(HttpSession sesion, @PathVariable("id") int id) {
 		
 		//Usuario user = (Usuario) sesion.getAttribute("usuario");
 		Usuario user = usuarioService.getById(1);
 		
 		//MOSTRARIA LAS TAREAS DE ESE PROYECTO DEL USUARIO CONECTADO
 		//RECOGIENDO EL ID DEL PROJECTO
-		ArrayList<Tarea> homeworks = (ArrayList<Tarea>) homeworkService.getAllByUsuarioAndProyecto(user, projectService.getById(id));
+		List<Tarea> homeworks = (List<Tarea>) homeworkService.getAllByUsuarioAndProyecto(user, projectService.getById(id));
 		
-		for(Tarea t : homeworks) {
-			
-			System.out.println(t.toString());
-		}
-		
-		return "index";
+		return homeworks;
 	}
 	
 	/**
@@ -85,7 +81,7 @@ public class HomeworkController {
  	 * @return
 	 */
 	@PostMapping("/add")
-	public String addHomework(HttpSession sesion, @Valid @ModelAttribute Tarea tarea, BindingResult bindingResult) {
+	public Tarea addHomework(HttpSession sesion, @Valid @RequestBody Tarea tarea, BindingResult bindingResult) {
 		
 		//AÑADIRA UNA NUEVA TAREA 
 		
@@ -108,7 +104,7 @@ public class HomeworkController {
 			log.debug("AÑADIDO DE LA NUEVA TAREA: " + tarea.toString());
 		}
 		
-		return "index";
+		return tarea;
 	}
 	
 	/**
@@ -116,15 +112,14 @@ public class HomeworkController {
 	 * @param id
 	 * @return
 	 */
-	@GetMapping("/del/{id}")
-	public String deleteHomework(@PathVariable("id") int id) {
+	@DeleteMapping("/del/{id}")
+	public Tarea deleteHomework(@PathVariable("id") int id) {
 		
-		
+		Tarea t = homeworkService.getTareaById(id);
 		//BORRADO DE LA TAREA SEGUN SU ID 
 		homeworkService.deleteTarea(id);
 		
-		
-		return "redirect: /homework";
+		return t;
 		
 	}
 	
@@ -134,8 +129,8 @@ public class HomeworkController {
 	 * @param bindingResult
 	 * @return
 	 */
-	@PostMapping("/update")
-	public String updateHomework(@Valid @ModelAttribute Tarea tarea, BindingResult bindingResult) {
+	@PutMapping("/update")
+	public Tarea updateHomework(@Valid @RequestBody Tarea tarea, BindingResult bindingResult) {
 		
 		//OBTENCION DEL USUARIO A TRAVES DE LA SESSION 
 		//Usuario user = (Usuario) sesion.getAttribute("usuario");
@@ -155,7 +150,7 @@ public class HomeworkController {
 			homeworkService.updateTarea(tarea);
 		}
 		
-		return "index";
+		return tarea;
 	}
 
 }

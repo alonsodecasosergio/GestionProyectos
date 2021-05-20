@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 
@@ -47,19 +48,21 @@ public class LoginController {
 	 * @return
 	 */
 	@PostMapping("/checked")
-	public String validateLogin(HttpSession sesion, Model model, @RequestParam(required = true) String email, @RequestParam(required = true) String password){
+	public Usuario validateLogin(HttpSession sesion, Model model, @RequestParam(required = true) String email, @RequestParam(required = true) String password){
+		
+		Usuario user = usuarioService.getUserToEmail(email);
 		
 		//COMRPOBACION DEL EMAIL Y CONTRASEÑA
 		if(usuarioService.checkUser(email, password)) {
 			
 			
 			//AL SER EL USUARIO CORRECTO SE CRERIA UNA SESSION CON EL
-			sesion.setAttribute("usuario", usuarioService.getUserToEmail(email));
+			sesion.setAttribute("usuario", user);
 			
-			return "redirect: /project";
+			return user;
 		}
 		
-		return "redirect: /login";
+		return user;
 	}
 	
 	/**
@@ -70,7 +73,7 @@ public class LoginController {
 	 * @return
 	 */
 	@PostMapping("/register")
-	public String register(@RequestParam(required = true) int idProject,@Valid  @ModelAttribute Usuario user, BindingResult bindingResult){
+	public Usuario register(@RequestParam(required = true) int idProject,@Valid @RequestBody Usuario user, BindingResult bindingResult){
 		
 		//AÑADIDO DEL PROJECTO AL USUARIO
 		user.setProyecto(proyectService.getById(idProject));
@@ -86,7 +89,7 @@ public class LoginController {
 			log.debug("Añadido del usuario: " + user.toString());
 		}
 		
-		return "redirect: /login"; 
+		return user; 
 	}
 
 }
