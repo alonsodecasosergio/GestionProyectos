@@ -35,15 +35,11 @@ public class ProjectController {
 	@Autowired
 	private ProyectService projectService;
 	
-	@GetMapping("")
-	public Proyecto viewProyect(HttpSession sesion) {
+	@GetMapping("/get/{id}")
+	public Proyecto viewProyect(@PathVariable("id") int id, HttpSession sesion) {
 		
 		//MOSTRARIA EL PROYECTO AL QUE EL USUARIO PERTENECE
-		
-		Usuario userConnected = (Usuario) sesion.getAttribute("usuario");
-		Proyecto projectMostrar = userConnected.getProyecto();
-		
-		return projectMostrar;
+		return projectService.getById(id);
 	}
 	
 	/**
@@ -108,8 +104,10 @@ public class ProjectController {
 	 * @param bindingResult
 	 * @return
 	 */
-	@PutMapping("/update")
-	public Proyecto updateProyect(@Valid @RequestBody Proyecto project, BindingResult bindingResult) {
+	@PutMapping("/update/{id}")
+	public Proyecto updateProyect(@PathVariable("id") int id,@Valid @RequestBody Proyecto project, BindingResult bindingResult) {
+		
+		project.setId(id);
 		
 		//COMPROBACION DE LAS VALIDACIONES
 		if(bindingResult.hasErrors()) {

@@ -9,6 +9,7 @@ import javax.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
+import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
@@ -29,6 +30,7 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 @RestController
+@CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/homework")
 public class HomeworkController {
 	
@@ -86,8 +88,7 @@ public class HomeworkController {
 		//AÑADIRA UNA NUEVA TAREA 
 		
 		//RECOJE EL USUARIO DE LA SESSION
-		//Usuario user = (Usuario) sesion.getAttribute("usuario");
-		Usuario user = usuarioService.getById(2);
+		Usuario user = (Usuario) sesion.getAttribute("usuario");
 		
 		//COMPROVACION DE VALIDACIONES
 		if(bindingResult.hasErrors()) {
