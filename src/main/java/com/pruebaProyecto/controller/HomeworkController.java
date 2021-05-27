@@ -85,10 +85,9 @@ public class HomeworkController {
 	@PostMapping("/add")
 	public Tarea addHomework(HttpSession sesion, @Valid @RequestBody Tarea tarea, BindingResult bindingResult) {
 		
-		//AÑADIRA UNA NUEVA TAREA 
+		//AÑADIRA UNA NUEVA TAREA
 		
-		//RECOJE EL USUARIO DE LA SESSION
-		Usuario user = (Usuario) sesion.getAttribute("usuario");
+		System.out.println(tarea.toString());
 		
 		//COMPROVACION DE VALIDACIONES
 		if(bindingResult.hasErrors()) {
@@ -96,9 +95,6 @@ public class HomeworkController {
 			log.error("HAY ERRORES DE VALIDACION");
 			
 		}else {
-			
-			tarea.setUsuario(user);
-			tarea.setProyecto(user.getProyecto());
 			
 			homeworkService.addTarea(tarea);
 			

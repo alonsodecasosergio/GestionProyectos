@@ -10,6 +10,7 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.ModelAttribute;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
@@ -36,10 +37,13 @@ public class LoginController {
 	@Autowired
 	private ProyectService proyectService;
 	
-	@GetMapping("")
-	public String view() {
+	@GetMapping("get/{email}")
+	public Usuario getUserFromEmail(@PathVariable("email") String email, HttpSession sesion) {
 		
-		return "index";
+		Usuario user = usuarioService.getUserToEmail(email);
+		
+		//MOSTRARIA EL PROYECTO AL QUE EL USUARIO PERTENECE
+		return user;
 	}
 	
 	/**
