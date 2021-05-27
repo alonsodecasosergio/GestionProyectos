@@ -87,5 +87,13 @@ public class UsuarioService {
 		return correcto;
 		
 	}
+	
+	/**
+	 * Envio de todos los usuarios de la base de datos
+	 * @return
+	 */
+	public Iterable<Usuario> getAll(){
+		return repository.findAll();
+	}
 
 }

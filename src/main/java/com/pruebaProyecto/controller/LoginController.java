@@ -1,5 +1,7 @@
 package com.pruebaProyecto.controller;
 
+import java.util.List;
+
 import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
@@ -100,6 +102,15 @@ public class LoginController {
 		}
 		
 		return user; 
+	}
+	
+	/**
+	 * Envio de todos los usuarios
+	 * @return
+	 */
+	@GetMapping("/all")
+	public List<Usuario> getAll(){
+		return (List<Usuario>) usuarioService.getAll();
 	}
 
 }
