@@ -24,6 +24,7 @@ import org.springframework.web.bind.annotation.RestController;
 import com.pruebaProyecto.model.Proyecto;
 import com.pruebaProyecto.model.Usuario;
 import com.pruebaProyecto.service.ProyectService;
+import com.pruebaProyecto.service.UsuarioService;
 
 import lombok.extern.log4j.Log4j;
 @Log4j
@@ -34,12 +35,23 @@ public class ProjectController {
 	
 	@Autowired
 	private ProyectService projectService;
+	@Autowired
+	private UsuarioService usuarioService;
 	
 	@GetMapping("/get/{id}")
 	public Proyecto viewProyect(@PathVariable("id") int id, HttpSession sesion) {
 		
 		//MOSTRARIA EL PROYECTO AL QUE EL USUARIO PERTENECE
 		return projectService.getById(id);
+	}
+	
+	@GetMapping("proyectFromSession/{email}")
+	public Proyecto viewProyectFromSession(@PathVariable("email") String email, HttpSession sesion) {
+		
+		Usuario user = usuarioService.getUserToEmail(email);
+		
+		//MOSTRARIA EL PROYECTO AL QUE EL USUARIO PERTENECE
+		return user.getProyecto();
 	}
 	
 	/**
