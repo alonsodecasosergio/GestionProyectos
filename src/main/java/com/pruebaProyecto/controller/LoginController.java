@@ -80,10 +80,9 @@ public class LoginController {
 	 * @return
 	 */
 	@PostMapping("/register")
-	public Usuario register(@RequestParam(required = true) int idProject,@Valid @RequestBody Usuario user, BindingResult bindingResult){
+	public Usuario register(@Valid @RequestBody Usuario user, BindingResult bindingResult){
 		
-		//AÑADIDO DEL PROJECTO AL USUARIO
-		user.setProyecto(proyectService.getById(idProject));
+		System.out.println(user.toString());
 		
 		//COMPROBACION DE LAS VALIDACIONES
 		if(bindingResult.hasErrors()) {
