@@ -36,7 +36,7 @@ public class HomeworkService {
 	public void deleteTarea(int id) {
 		
 		repository.deleteById(id);
-		log.debug("BORRADO DE LA TAREA " + getTareaById(id).toString());
+		log.debug("BORRADO DE LA TAREA CON ID: " + id);
 	}
 	
 	/**

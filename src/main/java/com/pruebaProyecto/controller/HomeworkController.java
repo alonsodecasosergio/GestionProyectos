@@ -76,6 +76,21 @@ public class HomeworkController {
 	}
 	
 	/**
+	 * Paso de una tarea segun su id
+	 * 
+	 * @param sesion
+	 * @param id
+	 * @return
+	 */
+	@GetMapping("/get/{id}")
+	public Tarea getTarea(HttpSession sesion, @PathVariable("id") int id) {
+		
+		Tarea tarea = homeworkService.getTareaById(id);
+		
+		return tarea;
+	}
+	
+	/**
 	 * Añadido de una nueva tarea 
 	 * @param sesion 
 	 * @param tarea 
@@ -126,14 +141,10 @@ public class HomeworkController {
 	 * @param bindingResult
 	 * @return
 	 */
-	@PutMapping("/update")
-	public Tarea updateHomework(@Valid @RequestBody Tarea tarea, BindingResult bindingResult) {
+	@PutMapping("/update/{id}")
+	public Tarea updateHomework(@PathVariable("id") int id,@Valid @RequestBody Tarea tarea, BindingResult bindingResult) {
 		
-		//OBTENCION DEL USUARIO A TRAVES DE LA SESSION 
-		//Usuario user = (Usuario) sesion.getAttribute("usuario");
-		Usuario user = usuarioService.getById(1);
-		tarea.setUsuario(user);
-		tarea.setProyecto(user.getProyecto());
+		tarea.setId(id);
 		
 		//COMPROVACION DE VALIDACIONES
 		if(bindingResult.hasErrors()) {
