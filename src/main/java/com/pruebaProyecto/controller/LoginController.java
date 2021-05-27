@@ -51,9 +51,11 @@ public class LoginController {
 	 * @return
 	 */
 	@PostMapping("/checked")
-	public Usuario validateLogin(HttpSession sesion, Model model, @RequestParam(required = true) String email, @RequestParam(required = true) String password){
+	public Usuario validateLogin(HttpSession sesion, Model model, @RequestBody Usuario usuario){
 		
-		System.out.println(email + password);
+		String email = usuario.getEmail();
+		String password = usuario.getPassword();
+		
 		Usuario user = usuarioService.getUserToEmail(email);
 		
 		//COMRPOBACION DEL EMAIL Y CONTRASEÑA
@@ -65,8 +67,9 @@ public class LoginController {
 			
 			return user;
 		}
-		
+		user.setEmail("");
 		return user;
+		
 	}
 	
 	/**
