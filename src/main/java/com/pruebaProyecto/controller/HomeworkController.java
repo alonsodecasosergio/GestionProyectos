@@ -62,11 +62,10 @@ public class HomeworkController {
 	 * @param id id del proyecto del que ver las tareas
 	 * @return
 	 */
-	@GetMapping("/myHomework/{id}")
-	public List<Tarea> myHomework(HttpSession sesion, @PathVariable("id") int id) {
+	@GetMapping("/myHomework/{email}/{id}")
+	public List<Tarea> myHomework(HttpSession sesion, @PathVariable("email") String email, @PathVariable("id") int id) {
 		
-		//Usuario user = (Usuario) sesion.getAttribute("usuario");
-		Usuario user = usuarioService.getById(1);
+		Usuario user = usuarioService.getUserToEmail(email);
 		
 		//MOSTRARIA LAS TAREAS DE ESE PROYECTO DEL USUARIO CONECTADO
 		//RECOGIENDO EL ID DEL PROJECTO
