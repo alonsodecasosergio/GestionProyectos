@@ -90,8 +90,12 @@ public class ProjectController implements CodigosError{
 		}else {
 			
 			//AÑADIDO DEL OBJETO A LA BASE DE DATOS
-			projectService.addProyecto(project);
-			proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_260[0]), CodigosError.COD_260[1], project);
+			if(projectService.addProyecto(project)) {
+				proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_260[0]), CodigosError.COD_260[1], project);
+			}else {
+				proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_500[0]), CodigosError.COD_500[1], project);
+			}
+			
 			
 		}
 		
@@ -105,15 +109,22 @@ public class ProjectController implements CodigosError{
 	 * @return
 	 */
 	@DeleteMapping("/del/{id}")
-	public Proyecto deleteProyect(@PathVariable("id") int id) {
+	public ProyectoDTO deleteProyect(@PathVariable("id") int id) {
 		
 		
 		//BORRADO DEL PROJECTO SEGUN SU ID 
 		Proyecto project = projectService.getById(id);
-		projectService.deleteProyecto(id);
+		
+		ProyectoDTO proyectoDTO = null;
+		
+		if(projectService.deleteProyecto(id)) {
+			proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_261[0]), CodigosError.COD_261[1], project);
+		}else {
+			proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_461[0]), CodigosError.COD_461[1], project);
+		}
 		
 		
-		return project;
+		return proyectoDTO;
 		
 	}
 	
@@ -124,7 +135,9 @@ public class ProjectController implements CodigosError{
 	 * @return
 	 */
 	@PutMapping("/update/{id}")
-	public Proyecto updateProyect(@PathVariable("id") int id,@Valid @RequestBody Proyecto project, BindingResult bindingResult) {
+	public ProyectoDTO updateProyect(@PathVariable("id") int id,@Valid @RequestBody Proyecto project, BindingResult bindingResult) {
+		
+		ProyectoDTO proyectoDTO = null;
 		
 		project.setId(id);
 		
@@ -132,15 +145,21 @@ public class ProjectController implements CodigosError{
 		if(bindingResult.hasErrors()) {
 			
 			log.error("HAY ERRORES DE VALIDACION");
+			proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_463[0]), CodigosError.COD_463[1], project);
 			
 		}else {
 			log.debug("EDITADO DEL PROJECTO: " + project.toString());
 			
 			//EDITADO DEL PRODUCTO
-			projectService.updateProject(project);
+			if(projectService.updateProject(project)) {
+				proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_263[0]), CodigosError.COD_263[1], project);
+				
+			}else {
+				proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_500[0]), CodigosError.COD_500[1], project);
+			}
 		}
 		
-		return project;
+		return proyectoDTO;
 	}
 
 }

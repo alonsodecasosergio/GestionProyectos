@@ -18,11 +18,22 @@ public class ProyectService{
 	/**
 	 * Metodo para añadir un proyecto
 	 * @param proyect
+	 * @return booleano indicando si se ha guardado ha ido correctamente
 	 */
-	public void addProyecto(Proyecto proyect) {
+	public boolean addProyecto(Proyecto proyect) {
 		
-		log.debug("AÑADIDO DEL PROYECTO: " + proyect.toString());
-		repository.save(proyect);
+		boolean correcto = true;
+		
+		log.info("AÑADIDO DEL PROYECTO: " + proyect.toString());
+		
+		try {
+			repository.save(proyect);
+		}catch(Exception e) {
+			correcto = false;
+		}
+		
+		return correcto;
+		
 	}
 	
 	/**
@@ -38,11 +49,21 @@ public class ProyectService{
 	/**
 	 * Metodo para borrar un proyecto
 	 * @param id
+	 * @return devuelve si el borrado ha sido correcto
 	 */
-	public void deleteProyecto(int id) {
+	public boolean deleteProyecto(int id) {
 		
-		log.debug("BORRADO DEL PROYECTO: " + getById(id).toString());
-		repository.deleteById(id);
+		boolean correcto = true;
+		
+		log.info("BORRADO DEL PROYECTO: " + getById(id).toString());
+		try {
+			repository.deleteById(id);
+		}catch(Exception e) {
+			correcto = false;
+		}
+		
+		return correcto;
+		
 		
 	}
 	
@@ -61,10 +82,19 @@ public class ProyectService{
 	 * Metodo para actualizar un proyecto
 	 * @param project
 	 */
-	public void updateProject(Proyecto project) {
+	public boolean updateProject(Proyecto project) {
 		
-		log.debug("ACTUALIZACION DEL PROYECTO: " + project.toString());
-		repository.save(project);
+		boolean correcto = true;
+		
+		log.info("ACTUALIZACION DEL PROYECTO: " + project.toString());
+		
+		try {
+			repository.save(project);
+		}catch(Exception e) {
+			correcto = false;
+		}
+		
+		return correcto;
 	}
 
 }
