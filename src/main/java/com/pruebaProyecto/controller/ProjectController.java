@@ -21,8 +21,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pruebaProyecto.DTO.ProyectoDTO;
 import com.pruebaProyecto.model.Proyecto;
 import com.pruebaProyecto.model.Usuario;
+import com.pruebaProyecto.service.CodigosError;
 import com.pruebaProyecto.service.ProyectService;
 import com.pruebaProyecto.service.UsuarioService;
 
@@ -31,7 +33,7 @@ import lombok.extern.log4j.Log4j;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/project")
-public class ProjectController {
+public class ProjectController implements CodigosError{
 	
 	@Autowired
 	private ProyectService projectService;
@@ -73,23 +75,28 @@ public class ProjectController {
 	 * @return
 	 */
 	@PostMapping("/add")
-	public Proyecto addProyect(@Valid @RequestBody Proyecto project, BindingResult bindingResult) {
+	public ProyectoDTO addProyect(@Valid @RequestBody Proyecto project, BindingResult bindingResult) {
 		
 		//FECHA FORMATO 2021/05/19
-		System.out.println(project.toString());
+		
+		ProyectoDTO proyectoDTO = null;
 		
 		//COMPROBACION DE QUE NO HAY ERRORES EN EL OBJETO
 		if(bindingResult.hasErrors()) {
 			
 			log.error("HAY ERRORES DE VALIDACION");
+			proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_460[0]), CodigosError.COD_460[1], project);
 			
 		}else {
 			
 			//AÑADIDO DEL OBJETO A LA BASE DE DATOS
 			projectService.addProyecto(project);
+			proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_260[0]), CodigosError.COD_260[1], project);
+			
 		}
 		
-		return project;
+		
+		return proyectoDTO;
 	}
 	
 	/**

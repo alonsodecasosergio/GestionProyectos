@@ -10,7 +10,7 @@ import lombok.extern.log4j.Log4j;
 
 @Log4j
 @Service
-public class ProyectService {
+public class ProyectService{
 	
 	@Autowired
 	private ProyectoRepository repository;
