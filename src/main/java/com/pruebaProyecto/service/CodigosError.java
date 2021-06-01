@@ -1,6 +1,5 @@
 package com.pruebaProyecto.service;
 
-import java.util.HashMap;
 
 public interface CodigosError {
 	
