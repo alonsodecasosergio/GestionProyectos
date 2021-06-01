@@ -43,6 +43,7 @@ public class ProyectService {
 		
 		log.debug("BORRADO DEL PROYECTO: " + getById(id).toString());
 		repository.deleteById(id);
+		
 	}
 	
 	/**

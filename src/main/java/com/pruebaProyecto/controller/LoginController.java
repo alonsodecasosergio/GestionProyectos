@@ -94,11 +94,14 @@ public class LoginController {
 		if(bindingResult.hasErrors()) {
 			
 			log.error("HAY ERRORES DE VALIDACION AL CREAR EL USUARIO");
+			return null;
 			
 		}else{
 			//AÑADIDO DEL USUARIO
 			usuarioService.addUsuario(user);
 			log.debug("Añadido del usuario: " + user.toString());
+	
+			
 		}
 		
 		return user; 
