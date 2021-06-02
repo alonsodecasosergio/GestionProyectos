@@ -6,25 +6,19 @@ import javax.servlet.http.HttpSession;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestAttribute;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.pruebaProyecto.DTO.UsuarioDTO;
-import com.pruebaProyecto.model.Proyecto;
 import com.pruebaProyecto.model.Usuario;
 import com.pruebaProyecto.service.CodigosError;
-import com.pruebaProyecto.service.ProyectService;
 import com.pruebaProyecto.service.UsuarioService;
 
 import lombok.extern.log4j.Log4j;
@@ -33,13 +27,11 @@ import lombok.extern.log4j.Log4j;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("")
-public class LoginController {
+public class LoginController extends CodigosError{
 	
 	
 	@Autowired
 	private UsuarioService usuarioService;
-	@Autowired
-	private ProyectService proyectService;
 	
 	@GetMapping("get/{email}")
 	public Usuario getUserFromEmail(@PathVariable("email") String email, HttpSession sesion) {
