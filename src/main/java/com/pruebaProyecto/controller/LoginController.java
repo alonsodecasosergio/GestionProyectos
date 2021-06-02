@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pruebaProyecto.DTO.UsuarioDTO;
 import com.pruebaProyecto.model.Proyecto;
 import com.pruebaProyecto.model.Usuario;
+import com.pruebaProyecto.service.CodigosError;
 import com.pruebaProyecto.service.ProyectService;
 import com.pruebaProyecto.service.UsuarioService;
 
@@ -57,7 +59,9 @@ public class LoginController {
 	 * @return
 	 */
 	@PostMapping("/checked")
-	public Usuario validateLogin(HttpSession sesion, Model model, @RequestBody Usuario usuario){
+	public UsuarioDTO validateLogin(HttpSession sesion, Model model, @RequestBody Usuario usuario){
+		
+		UsuarioDTO userDTO = null;
 		
 		String email = usuario.getEmail();
 		String password = usuario.getPassword();
@@ -67,14 +71,15 @@ public class LoginController {
 		//COMRPOBACION DEL EMAIL Y CONTRASEÑA
 		if(usuarioService.checkUser(email, password)) {
 			
-			
-			//AL SER EL USUARIO CORRECTO SE CRERIA UNA SESSION CON EL
-			sesion.setAttribute("usuario", user);
-			
-			return user;
+			//AL SER EL USUARIO CORRECTO SE CRERIA UNA SESSION CON EL			
+			userDTO = new UsuarioDTO(Integer.parseInt(CodigosError.COD_281[0]), CodigosError.COD_281[1], user);
+			log.info("Usuario conectado correctamente " + user.toString());
+		}else {
+			userDTO = new UsuarioDTO(Integer.parseInt(CodigosError.COD_483[0]), CodigosError.COD_483[1], user);
+			log.info("Usuario incorrecto " + email + " | " + password);
 		}
-		user.setEmail("");
-		return user;
+		
+		return userDTO;
 		
 	}
 	
@@ -86,25 +91,24 @@ public class LoginController {
 	 * @return
 	 */
 	@PostMapping("/register")
-	public Usuario register(@Valid @RequestBody Usuario user, BindingResult bindingResult){
+	public UsuarioDTO register(@Valid @RequestBody Usuario user, BindingResult bindingResult){
 		
-		System.out.println(user.toString());
+		UsuarioDTO userDTO = null;
 		
 		//COMPROBACION DE LAS VALIDACIONES
 		if(bindingResult.hasErrors()) {
 			
 			log.error("HAY ERRORES DE VALIDACION AL CREAR EL USUARIO");
-			return null;
+			userDTO = new UsuarioDTO(Integer.parseInt(CodigosError.COD_480[0]), CodigosError.COD_480[1], user);
 			
 		}else{
 			//AÑADIDO DEL USUARIO
 			usuarioService.addUsuario(user);
-			log.debug("Añadido del usuario: " + user.toString());
-	
-			
+			log.info("Añadido del usuario: " + user.toString());
+			userDTO = new UsuarioDTO(Integer.parseInt(CodigosError.COD_280[0]), CodigosError.COD_280[1], user);
 		}
 		
-		return user; 
+		return userDTO; 
 	}
 	
 	/**

@@ -87,7 +87,7 @@ public interface CodigosError {
 	//CODIGOS DE ESTADO 480 -> ERRORES CLIENTE USUARIO
 	public final String[] COD_480 = {"480", "Los datos no son correctos"};
 	public final String[] COD_481 = {"481", "El usuario no pudo ser creado"};
-	public final String[] COD_483 = {"483", "Error al iniciar la sesion"};
+	public final String[] COD_483 = {"483", "Los datos son incorrectos"};
 	public final String[] COD_484 = {"484", "Es necesario que este logueado"};
 	
 	

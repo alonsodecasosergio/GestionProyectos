@@ -20,8 +20,10 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.pruebaProyecto.DTO.TareaDTO;
 import com.pruebaProyecto.model.Tarea;
 import com.pruebaProyecto.model.Usuario;
+import com.pruebaProyecto.service.CodigosError;
 import com.pruebaProyecto.service.HomeworkService;
 import com.pruebaProyecto.service.ProyectService;
 import com.pruebaProyecto.service.UsuarioService;
@@ -32,7 +34,7 @@ import lombok.extern.log4j.Log4j;
 @RestController
 @CrossOrigin(origins = "http://localhost:4200")
 @RequestMapping("/homework")
-public class HomeworkController {
+public class HomeworkController{
 	
 	@Autowired
 	private ProyectService projectService;
@@ -97,25 +99,28 @@ public class HomeworkController {
  	 * @return
 	 */
 	@PostMapping("/add")
-	public Tarea addHomework(HttpSession sesion, @Valid @RequestBody Tarea tarea, BindingResult bindingResult) {
+	public TareaDTO addHomework(HttpSession sesion, @Valid @RequestBody Tarea tarea, BindingResult bindingResult) {
 		
 		//AÑADIRA UNA NUEVA TAREA
-		
-		System.out.println(tarea.toString());
+		TareaDTO tareaDTO = null;
 		
 		//COMPROVACION DE VALIDACIONES
 		if(bindingResult.hasErrors()) {
 			
 			log.error("HAY ERRORES DE VALIDACION");
+			tareaDTO = new TareaDTO(Integer.parseInt(CodigosError.COD_470[0]), CodigosError.COD_470[1], tarea);
 			
 		}else {
 			
-			homeworkService.addTarea(tarea);
-			
-			log.debug("AÑADIDO DE LA NUEVA TAREA: " + tarea.toString());
+			if(homeworkService.addTarea(tarea)) {
+				tareaDTO = new TareaDTO(Integer.parseInt(CodigosError.COD_270[0]), CodigosError.COD_270[1], tarea);
+			}else {
+				tareaDTO = new TareaDTO(Integer.parseInt(CodigosError.COD_500[0]), CodigosError.COD_500[1], tarea);
+				log.error("Error al añadir la tarea: " + tarea.toString());
+			}
 		}
 		
-		return tarea;
+		return tareaDTO;
 	}
 	
 	/**
@@ -124,13 +129,20 @@ public class HomeworkController {
 	 * @return
 	 */
 	@DeleteMapping("/del/{id}")
-	public Tarea deleteHomework(@PathVariable("id") int id) {
+	public TareaDTO deleteHomework(@PathVariable("id") int id) {
 		
-		Tarea t = homeworkService.getTareaById(id);
+		TareaDTO tareaDTO = null;
+		
+		Tarea tarea = homeworkService.getTareaById(id);
+		
 		//BORRADO DE LA TAREA SEGUN SU ID 
-		homeworkService.deleteTarea(id);
+		if(homeworkService.deleteTarea(id)) {
+			tareaDTO = new TareaDTO(Integer.parseInt(CodigosError.COD_271[0]), CodigosError.COD_271[1], tarea);
+		}else {
+			tareaDTO = new TareaDTO(Integer.parseInt(CodigosError.COD_500[0]), CodigosError.COD_500[1], tarea);
+		}
 		
-		return t;
+		return tareaDTO;
 		
 	}
 	
@@ -141,7 +153,9 @@ public class HomeworkController {
 	 * @return
 	 */
 	@PutMapping("/update/{id}")
-	public Tarea updateHomework(@PathVariable("id") int id,@Valid @RequestBody Tarea tarea, BindingResult bindingResult) {
+	public TareaDTO updateHomework(@PathVariable("id") int id,@Valid @RequestBody Tarea tarea, BindingResult bindingResult) {
+		
+		TareaDTO tareaDTO = null;
 		
 		tarea.setId(id);
 		
@@ -149,15 +163,20 @@ public class HomeworkController {
 		if(bindingResult.hasErrors()) {
 			
 			log.error("HAY ERRORES DE VALIDACION");
+			tareaDTO = new TareaDTO(Integer.parseInt(CodigosError.COD_473[0]), CodigosError.COD_473[1], tarea);
 			
 		}else {
-			log.debug("EDITADO DE LA TAREA: " + tarea.toString());
+			log.info("EDITADO DE LA TAREA: " + tarea.toString());
 			
 			//EDITADO DE LA TAREA
-			homeworkService.updateTarea(tarea);
+			if(homeworkService.updateTarea(tarea)) {
+				tareaDTO = new TareaDTO(Integer.parseInt(CodigosError.COD_273[0]), CodigosError.COD_273[1], tarea);
+			}else {
+				tareaDTO = new TareaDTO(Integer.parseInt(CodigosError.COD_500[0]), CodigosError.COD_500[1], tarea);
+			}
 		}
 		
-		return tarea;
+		return tareaDTO;
 	}
 
 }

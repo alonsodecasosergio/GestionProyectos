@@ -21,31 +21,62 @@ public class HomeworkService {
 	/**
 	 * Metodo para añadir una tarea
 	 * @param tarea
+	 * @return informa de si el resultado ha sido correcto
 	 */
-	public void addTarea(Tarea tarea) {
+	public boolean addTarea(Tarea tarea) {
 		
-		repository.save(tarea);
-		log.debug("AÑADIDO DE LA TAREA: " + tarea.toString());
+		boolean correcto = true;
+		
+		log.info("AÑADIDO DE LA TAREA: " + tarea.toString());
+		
+		try {
+			repository.save(tarea);	
+		}catch(Exception e) {
+			correcto = false;
+		}
+		
+		return correcto;
 		
 	}
 	
 	/**
 	 * Metodo para borrar una tarea
 	 * @param id
+	 * @return resultado de la operacion
 	 */
-	public void deleteTarea(int id) {
+	public boolean deleteTarea(int id) {
 		
-		repository.deleteById(id);
+		boolean correcto = true;
+		
 		log.debug("BORRADO DE LA TAREA CON ID: " + id);
+		
+		try {
+			repository.deleteById(id);
+		}catch(Exception e) {
+			correcto = false;
+		}
+		
+		return correcto;
+		
 	}
 	
 	/**
 	 * Metodo para actualizar una tarea
 	 * @param tarea
+	 * @return resultado de la operacion
 	 */
-	public void updateTarea(Tarea tarea) {
-		repository.save(tarea);
-		log.debug("ACTUALIZACION DE LA TAREA: " + tarea.toString());
+	public boolean updateTarea(Tarea tarea) {
+		
+		boolean correcto = true;
+		log.info("ACTUALIZACION DE LA TAREA: " + tarea.toString());
+		try {
+			repository.save(tarea);
+			
+		}catch(Exception e) {
+			correcto = false;
+		}
+		
+		return correcto;
 	}
 	
 	/**
