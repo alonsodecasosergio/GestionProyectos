@@ -9,7 +9,7 @@ class PruebaProyectoApplicationTests {
 
 	@Test
 	void contextLoads() {
-		System.out.println("REALIZANDO EL TEST");
+		System.out.println("REALIZANDO EL TEST"); 
 	}
 
 }
