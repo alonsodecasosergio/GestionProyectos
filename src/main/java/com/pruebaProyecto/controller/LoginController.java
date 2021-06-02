@@ -59,9 +59,11 @@ public class LoginController {
 	 * @return
 	 */
 	@PostMapping("/checked")
-	public UsuarioDTO validateLogin(HttpSession sesion, Model model, @RequestBody Usuario usuario){
+	public UsuarioDTO validateLogin(HttpSession sesion, Model model, @RequestBody UsuarioDTO u){
 		
 		UsuarioDTO userDTO = null;
+		
+		Usuario usuario = u.getUsuario();
 		
 		String email = usuario.getEmail();
 		String password = usuario.getPassword();
@@ -72,10 +74,10 @@ public class LoginController {
 		if(usuarioService.checkUser(email, password)) {
 			
 			//AL SER EL USUARIO CORRECTO SE CRERIA UNA SESSION CON EL			
-			userDTO = new UsuarioDTO(Integer.parseInt(CodigosError.COD_281[0]), CodigosError.COD_281[1], user);
+			userDTO = new UsuarioDTO(Integer.parseInt(CodigosError.cod_281[0]), CodigosError.cod_281[1], user);
 			log.info("Usuario conectado correctamente " + user.toString());
 		}else {
-			userDTO = new UsuarioDTO(Integer.parseInt(CodigosError.COD_483[0]), CodigosError.COD_483[1], user);
+			userDTO = new UsuarioDTO(Integer.parseInt(CodigosError.cod_483[0]), CodigosError.cod_483[1], user);
 			log.info("Usuario incorrecto " + email + " | " + password);
 		}
 		
@@ -91,21 +93,23 @@ public class LoginController {
 	 * @return
 	 */
 	@PostMapping("/register")
-	public UsuarioDTO register(@Valid @RequestBody Usuario user, BindingResult bindingResult){
+	public UsuarioDTO register(@Valid @RequestBody UsuarioDTO u, BindingResult bindingResult){
 		
 		UsuarioDTO userDTO = null;
+		
+		Usuario user = u.getUsuario();
 		
 		//COMPROBACION DE LAS VALIDACIONES
 		if(bindingResult.hasErrors()) {
 			
 			log.error("HAY ERRORES DE VALIDACION AL CREAR EL USUARIO");
-			userDTO = new UsuarioDTO(Integer.parseInt(CodigosError.COD_480[0]), CodigosError.COD_480[1], user);
+			userDTO = new UsuarioDTO(Integer.parseInt(CodigosError.cod_480[0]), CodigosError.cod_480[1], user);
 			
 		}else{
 			//AÑADIDO DEL USUARIO
 			usuarioService.addUsuario(user);
 			log.info("Añadido del usuario: " + user.toString());
-			userDTO = new UsuarioDTO(Integer.parseInt(CodigosError.COD_280[0]), CodigosError.COD_280[1], user);
+			userDTO = new UsuarioDTO(Integer.parseInt(CodigosError.cod_280[0]), CodigosError.cod_280[1], user);
 		}
 		
 		return userDTO; 

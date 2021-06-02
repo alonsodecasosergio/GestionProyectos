@@ -75,25 +75,27 @@ public class ProjectController implements CodigosError{
 	 * @return
 	 */
 	@PostMapping("/add")
-	public ProyectoDTO addProyect(@Valid @RequestBody Proyecto project, BindingResult bindingResult) {
+	public ProyectoDTO addProyect(@Valid @RequestBody ProyectoDTO p, BindingResult bindingResult) {
 		
 		//FECHA FORMATO 2021/05/19
 		
 		ProyectoDTO proyectoDTO = null;
 		
+		Proyecto project = p.getProyecto();
+		
 		//COMPROBACION DE QUE NO HAY ERRORES EN EL OBJETO
 		if(bindingResult.hasErrors()) {
 			
 			log.error("HAY ERRORES DE VALIDACION");
-			proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_460[0]), CodigosError.COD_460[1], project);
+			proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.cod_460[0]), CodigosError.cod_460[1], project);
 			
 		}else {
 			
 			//AÑADIDO DEL OBJETO A LA BASE DE DATOS
 			if(projectService.addProyecto(project)) {
-				proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_260[0]), CodigosError.COD_260[1], project);
+				proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.cod_260[0]), CodigosError.cod_260[1], project);
 			}else {
-				proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_500[0]), CodigosError.COD_500[1], project);
+				proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.cod_500[0]), CodigosError.cod_500[1], project);
 			}
 			
 			
@@ -118,9 +120,9 @@ public class ProjectController implements CodigosError{
 		ProyectoDTO proyectoDTO = null;
 		
 		if(projectService.deleteProyecto(id)) {
-			proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_261[0]), CodigosError.COD_261[1], project);
+			proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.cod_261[0]), CodigosError.cod_261[1], project);
 		}else {
-			proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_461[0]), CodigosError.COD_461[1], project);
+			proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.cod_461[0]), CodigosError.cod_461[1], project);
 		}
 		
 		
@@ -135,9 +137,11 @@ public class ProjectController implements CodigosError{
 	 * @return
 	 */
 	@PutMapping("/update/{id}")
-	public ProyectoDTO updateProyect(@PathVariable("id") int id,@Valid @RequestBody Proyecto project, BindingResult bindingResult) {
+	public ProyectoDTO updateProyect(@PathVariable("id") int id,@Valid @RequestBody ProyectoDTO p, BindingResult bindingResult) {
 		
 		ProyectoDTO proyectoDTO = null;
+		
+		Proyecto project = p.getProyecto();
 		
 		project.setId(id);
 		
@@ -145,17 +149,17 @@ public class ProjectController implements CodigosError{
 		if(bindingResult.hasErrors()) {
 			
 			log.error("HAY ERRORES DE VALIDACION");
-			proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_463[0]), CodigosError.COD_463[1], project);
+			proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.cod_463[0]), CodigosError.cod_463[1], project);
 			
 		}else {
 			log.debug("EDITADO DEL PROJECTO: " + project.toString());
 			
 			//EDITADO DEL PRODUCTO
 			if(projectService.updateProject(project)) {
-				proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_263[0]), CodigosError.COD_263[1], project);
+				proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.cod_263[0]), CodigosError.cod_263[1], project);
 				
 			}else {
-				proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.COD_500[0]), CodigosError.COD_500[1], project);
+				proyectoDTO = new ProyectoDTO(Integer.parseInt(CodigosError.cod_500[0]), CodigosError.cod_500[1], project);
 			}
 		}
 		
