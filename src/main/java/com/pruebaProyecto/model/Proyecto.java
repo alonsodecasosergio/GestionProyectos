@@ -34,6 +34,5 @@ public class Proyecto {
 	private Date fechaInicio;
 	
 	@Column(name = "fecha_fin")
-	private Date fechaFin;
-	
+	private Date fechaFin;	
 }
